@@ -1,13 +1,24 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {Button} from "primeng/button";
+import {FaIconComponent, FaIconLibrary} from "@fortawesome/angular-fontawesome";
+import {fontAwesomeIcons} from "./shared/font-awesome-icons";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Button, FaIconComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'airbnb-clone-front';
+  faIconLibrary = inject(FaIconLibrary);
+
+  ngOnInit(): void{
+    this.initFontAwesome();
+  }
+
+  private initFontAwesome() {
+    this.faIconLibrary.addIcons(...fontAwesomeIcons);
+  }
 }
