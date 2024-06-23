@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ButtonModule} from "primeng/button";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ToolbarModule} from "primeng/toolbar";
@@ -7,6 +7,7 @@ import {CategoryComponent} from "./category/category.component";
 import {AvatarComponent} from "./avatar/avatar.component";
 import {DialogService} from "primeng/dynamicdialog";
 import {MenuItem} from "primeng/api";
+import {ToastService} from "../toast.service";
 
 @Component({
   selector: 'app-navbar',
@@ -24,7 +25,7 @@ import {MenuItem} from "primeng/api";
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
-
+  toastService = inject(ToastService);
   location = "Anywhere";
   guests = "Add guests";
   dates = "Any week";
@@ -34,7 +35,8 @@ export class NavbarComponent implements OnInit {
 
   currentMenuItems:MenuItem[] |undefined = [];
   ngOnInit(): void {
-    this.fetchMenu();
+    this.currentMenuItems = this.fetchMenu();
+    this.toastService.send({severity: "info", summary: "Welcome to your AirBnB App"});
   }
 
   private fetchMenu() {
